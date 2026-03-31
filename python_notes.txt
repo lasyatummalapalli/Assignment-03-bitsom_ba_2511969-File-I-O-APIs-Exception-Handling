@@ -1,1 +1,291 @@
-
+{
+  "nbformat": 4,
+  "nbformat_minor": 0,
+  "metadata": {
+    "colab": {
+      "provenance": [],
+      "authorship_tag": "ABX9TyN4pybGaU1qGH/NXE2WYKPl",
+      "include_colab_link": true
+    },
+    "kernelspec": {
+      "name": "python3",
+      "display_name": "Python 3"
+    },
+    "language_info": {
+      "name": "python"
+    }
+  },
+  "cells": [
+    {
+      "cell_type": "markdown",
+      "metadata": {
+        "id": "view-in-github",
+        "colab_type": "text"
+      },
+      "source": [
+        "<a href=\"https://colab.research.google.com/github/lasyatummalapalli/Assignment-03-bitsom_ba_2511969-File-I-O-APIs-Exception-Handling/blob/main/python_notes.txt\" target=\"_parent\"><img src=\"https://colab.research.google.com/assets/colab-badge.svg\" alt=\"Open In Colab\"/></a>"
+      ]
+    },
+    {
+      "cell_type": "code",
+      "execution_count": 1,
+      "metadata": {
+        "colab": {
+          "base_uri": "https://localhost:8080/"
+        },
+        "id": "HZ-hIlMHwY2F",
+        "outputId": "41c1fde1-36c5-46d7-c43c-85ac57064ceb"
+      },
+      "outputs": [
+        {
+          "output_type": "stream",
+          "name": "stdout",
+          "text": [
+            "File written successfully.\n",
+            "Lines appended.\n",
+            "\n",
+            "File Contents:\n",
+            "1. Topic 1: Variables store data. Python is dynamically typed.\n",
+            "2. Topic 2: Lists are ordered and mutable.\n",
+            "3. Topic 3: Dictionaries store key-value pairs.\n",
+            "4. Topic 4: Loops automate repetitive tasks.\n",
+            "5. Topic 5: Exception handling prevents crashes.\n",
+            "6. Topic 6: Functions help reuse code.\n",
+            "7. Topic 7: APIs connect applications.\n",
+            "\n",
+            "Total lines: 7\n",
+            "\n",
+            "Enter a keyword to search in the notes: Topic 1\n",
+            "\n",
+            "Search Results:\n",
+            "Topic 1: Variables store data. Python is dynamically typed.\n"
+          ]
+        }
+      ],
+      "source": [
+        "FILE_PATH = \"python_notes.txt\"\n",
+        "\n",
+        "# ----------------------\n",
+        "# Part A: Write to File\n",
+        "# ----------------------\n",
+        "\n",
+        "def write_initial_notes():\n",
+        "    with open(FILE_PATH, \"w\", encoding=\"utf-8\") as file:\n",
+        "        file.write(\"Topic 1: Variables store data. Python is dynamically typed.\\n\")\n",
+        "        file.write(\"Topic 2: Lists are ordered and mutable.\\n\")\n",
+        "        file.write(\"Topic 3: Dictionaries store key-value pairs.\\n\")\n",
+        "        file.write(\"Topic 4: Loops automate repetitive tasks.\\n\")\n",
+        "        file.write(\"Topic 5: Exception handling prevents crashes.\\n\")\n",
+        "    print(\"File written successfully.\")\n",
+        "\n",
+        "def append_extra_notes():\n",
+        "    with open(FILE_PATH, \"a\", encoding=\"utf-8\") as file:\n",
+        "        file.write(\"Topic 6: Functions help reuse code.\\n\")\n",
+        "        file.write(\"Topic 7: APIs connect applications.\\n\")\n",
+        "    print(\"Lines appended.\")\n",
+        "\n",
+        "write_initial_notes()\n",
+        "append_extra_notes()\n",
+        "\n",
+        "# ----------------------\n",
+        "# Part B: Read from File\n",
+        "# ----------------------\n",
+        "\n",
+        "with open(FILE_PATH, \"r\", encoding=\"utf-8\") as file:\n",
+        "    lines = file.readlines()\n",
+        "\n",
+        "print(\"\\nFile Contents:\")\n",
+        "for number, text in enumerate(lines, start=1):\n",
+        "    print(f\"{number}. {text.strip()}\")\n",
+        "\n",
+        "total_lines = len(lines)\n",
+        "print(f\"\\nTotal lines: {total_lines}\")\n",
+        "\n",
+        "search_term = input(\"\\nEnter a keyword to search in the notes: \").lower()\n",
+        "\n",
+        "print(\"\\nSearch Results:\")\n",
+        "match_found = False\n",
+        "for text in lines:\n",
+        "    if search_term in text.lower():\n",
+        "        print(text.strip())\n",
+        "        match_found = True\n",
+        "\n",
+        "if not match_found:\n",
+        "    print(\"No matching lines found for that keyword.\")"
+      ]
+    },
+    {
+      "cell_type": "code",
+      "source": [
+        "!pip install requests"
+      ],
+      "metadata": {
+        "colab": {
+          "base_uri": "https://localhost:8080/"
+        },
+        "id": "IR-wBPMPyRv6",
+        "outputId": "bddb02e4-f008-461b-db4a-bdcbeb334fd8"
+      },
+      "execution_count": 2,
+      "outputs": [
+        {
+          "output_type": "stream",
+          "name": "stdout",
+          "text": [
+            "Requirement already satisfied: requests in /usr/local/lib/python3.12/dist-packages (2.32.4)\n",
+            "Requirement already satisfied: charset_normalizer<4,>=2 in /usr/local/lib/python3.12/dist-packages (from requests) (3.4.6)\n",
+            "Requirement already satisfied: idna<4,>=2.5 in /usr/local/lib/python3.12/dist-packages (from requests) (3.11)\n",
+            "Requirement already satisfied: urllib3<3,>=1.21.1 in /usr/local/lib/python3.12/dist-packages (from requests) (2.5.0)\n",
+            "Requirement already satisfied: certifi>=2017.4.17 in /usr/local/lib/python3.12/dist-packages (from requests) (2026.2.25)\n"
+          ]
+        }
+      ]
+    },
+    {
+      "cell_type": "code",
+      "source": [
+        "import requests\n",
+        "\n",
+        "BASE_URL = \"https://dummyjson.com/products\"\n",
+        "\n",
+        "\n",
+        "def fetch_products(limit=20):\n",
+        "    url = f\"{BASE_URL}?limit={limit}\"\n",
+        "    r = requests.get(url)\n",
+        "    r.raise_for_status()\n",
+        "    return r.json()[\"products\"]\n",
+        "\n",
+        "\n",
+        "def print_products_table(products):\n",
+        "    print(f\"{'ID':<4}| {'Title':<32}| {'Category':<15}| {'Price':<9}| Rating\")\n",
+        "    print(\"-\" * 80)\n",
+        "    for p in products:\n",
+        "        print(\n",
+        "            f\"{p['id']:<4}| \"\n",
+        "            f\"{p['title']:<32}| \"\n",
+        "            f\"{p['category']:<15}| \"\n",
+        "            f\"${p['price']:<8.2f}| {p['rating']}\"\n",
+        "        )\n",
+        "\n",
+        "\n",
+        "def filter_and_sort_by_rating(products, min_rating=4.5):\n",
+        "    result = [p for p in products if p[\"rating\"] >= min_rating]\n",
+        "    return sorted(result, key=lambda x: x[\"price\"], reverse=True)\n",
+        "\n",
+        "\n",
+        "def fetch_by_category(category):\n",
+        "    url = f\"{BASE_URL}/category/{category}\"\n",
+        "    r = requests.get(url)\n",
+        "    r.raise_for_status()\n",
+        "    return r.json()[\"products\"]\n",
+        "\n",
+        "\n",
+        "def create_product(payload):\n",
+        "    url = f\"{BASE_URL}/add\"\n",
+        "    r = requests.post(url, json=payload)\n",
+        "    r.raise_for_status()\n",
+        "    return r.json()\n",
+        "\n",
+        "\n",
+        "# ---------------------- Step 1 ----------------------\n",
+        "print(\"Fetching 20 products...\\n\")\n",
+        "all_products = fetch_products(20)\n",
+        "print_products_table(all_products)\n",
+        "\n",
+        "# ---------------------- Step 2 ----------------------\n",
+        "print(\"\\nFiltered Products (Rating >= 4.5):\\n\")\n",
+        "high_rated = filter_and_sort_by_rating(all_products, 4.5)\n",
+        "for p in high_rated:\n",
+        "    print(f\"{p['title']} | Price: ${p['price']:.2f} | Rating: {p['rating']}\")\n",
+        "\n",
+        "# ---------------------- Step 3 ----------------------\n",
+        "print(\"\\nLaptops Category:\\n\")\n",
+        "laptops = fetch_by_category(\"laptops\")\n",
+        "for lp in laptops:\n",
+        "    print(f\"{lp['title']} | Price: ${lp['price']:.2f}\")\n",
+        "\n",
+        "# ---------------------- Step 4 ----------------------\n",
+        "print(\"\\nSending POST Request...\\n\")\n",
+        "payload = {\n",
+        "    \"title\": \"My Custom Product\",\n",
+        "    \"price\": 999,\n",
+        "    \"category\": \"electronics\",\n",
+        "    \"description\": \"A product I created via API\",\n",
+        "}\n",
+        "response_data = create_product(payload)\n",
+        "\n",
+        "print(\"Response from server:\")\n",
+        "print(response_data)\n"
+      ],
+      "metadata": {
+        "colab": {
+          "base_uri": "https://localhost:8080/"
+        },
+        "id": "klEIXcg2yabD",
+        "outputId": "fe61128b-e00d-41e9-ddb7-5777fcc06aeb"
+      },
+      "execution_count": 4,
+      "outputs": [
+        {
+          "output_type": "stream",
+          "name": "stdout",
+          "text": [
+            "Fetching 20 products...\n",
+            "\n",
+            "ID  | Title                           | Category       | Price    | Rating\n",
+            "--------------------------------------------------------------------------------\n",
+            "1   | Essence Mascara Lash Princess   | beauty         | $9.99    | 2.56\n",
+            "2   | Eyeshadow Palette with Mirror   | beauty         | $19.99   | 2.86\n",
+            "3   | Powder Canister                 | beauty         | $14.99   | 4.64\n",
+            "4   | Red Lipstick                    | beauty         | $12.99   | 4.36\n",
+            "5   | Red Nail Polish                 | beauty         | $8.99    | 4.32\n",
+            "6   | Calvin Klein CK One             | fragrances     | $49.99   | 4.37\n",
+            "7   | Chanel Coco Noir Eau De         | fragrances     | $129.99  | 4.26\n",
+            "8   | Dior J'adore                    | fragrances     | $89.99   | 3.8\n",
+            "9   | Dolce Shine Eau de              | fragrances     | $69.99   | 3.96\n",
+            "10  | Gucci Bloom Eau de              | fragrances     | $79.99   | 2.74\n",
+            "11  | Annibale Colombo Bed            | furniture      | $1899.99 | 4.77\n",
+            "12  | Annibale Colombo Sofa           | furniture      | $2499.99 | 3.92\n",
+            "13  | Bedside Table African Cherry    | furniture      | $299.99  | 2.87\n",
+            "14  | Knoll Saarinen Executive Conference Chair| furniture      | $499.99  | 4.88\n",
+            "15  | Wooden Bathroom Sink With Mirror| furniture      | $799.99  | 3.59\n",
+            "16  | Apple                           | groceries      | $1.99    | 4.19\n",
+            "17  | Beef Steak                      | groceries      | $12.99   | 4.47\n",
+            "18  | Cat Food                        | groceries      | $8.99    | 3.13\n",
+            "19  | Chicken Meat                    | groceries      | $9.99    | 3.19\n",
+            "20  | Cooking Oil                     | groceries      | $4.99    | 4.8\n",
+            "\n",
+            "Filtered Products (Rating >= 4.5):\n",
+            "\n",
+            "Annibale Colombo Bed | Price: $1899.99 | Rating: 4.77\n",
+            "Knoll Saarinen Executive Conference Chair | Price: $499.99 | Rating: 4.88\n",
+            "Powder Canister | Price: $14.99 | Rating: 4.64\n",
+            "Cooking Oil | Price: $4.99 | Rating: 4.8\n",
+            "\n",
+            "Laptops Category:\n",
+            "\n",
+            "Apple MacBook Pro 14 Inch Space Grey | Price: $1999.99\n",
+            "Asus Zenbook Pro Dual Screen Laptop | Price: $1799.99\n",
+            "Huawei Matebook X Pro | Price: $1399.99\n",
+            "Lenovo Yoga 920 | Price: $1099.99\n",
+            "New DELL XPS 13 9300 Laptop | Price: $1499.99\n",
+            "\n",
+            "Sending POST Request...\n",
+            "\n",
+            "Response from server:\n",
+            "{'id': 195, 'title': 'My Custom Product', 'price': 999, 'description': 'A product I created via API', 'category': 'electronics'}\n"
+          ]
+        }
+      ]
+    },
+    {
+      "cell_type": "code",
+      "source": [],
+      "metadata": {
+        "id": "M7Dl2A7TyqHx"
+      },
+      "execution_count": null,
+      "outputs": []
+    }
+  ]
+}
