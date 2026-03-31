@@ -1,1 +1,228 @@
-
+{
+  "nbformat": 4,
+  "nbformat_minor": 0,
+  "metadata": {
+    "colab": {
+      "provenance": [],
+      "authorship_tag": "ABX9TyP9FBkyfDyBySlUfxHE9lZW",
+      "include_colab_link": true
+    },
+    "kernelspec": {
+      "name": "python3",
+      "display_name": "Python 3"
+    },
+    "language_info": {
+      "name": "python"
+    }
+  },
+  "cells": [
+    {
+      "cell_type": "markdown",
+      "metadata": {
+        "id": "view-in-github",
+        "colab_type": "text"
+      },
+      "source": [
+        "<a href=\"https://colab.research.google.com/github/lasyatummalapalli/Assignment-03-bitsom_ba_2511969-File-I-O-APIs-Exception-Handling/blob/main/error_log.txt\" target=\"_parent\"><img src=\"https://colab.research.google.com/assets/colab-badge.svg\" alt=\"Open In Colab\"/></a>"
+      ]
+    },
+    {
+      "cell_type": "code",
+      "execution_count": 1,
+      "metadata": {
+        "colab": {
+          "base_uri": "https://localhost:8080/"
+        },
+        "id": "HZ-hIlMHwY2F",
+        "outputId": "41c1fde1-36c5-46d7-c43c-85ac57064ceb"
+      },
+      "outputs": [
+        {
+          "output_type": "stream",
+          "name": "stdout",
+          "text": [
+            "File written successfully.\n",
+            "Lines appended.\n",
+            "\n",
+            "File Contents:\n",
+            "1. Topic 1: Variables store data. Python is dynamically typed.\n",
+            "2. Topic 2: Lists are ordered and mutable.\n",
+            "3. Topic 3: Dictionaries store key-value pairs.\n",
+            "4. Topic 4: Loops automate repetitive tasks.\n",
+            "5. Topic 5: Exception handling prevents crashes.\n",
+            "6. Topic 6: Functions help reuse code.\n",
+            "7. Topic 7: APIs connect applications.\n",
+            "\n",
+            "Total lines: 7\n",
+            "\n",
+            "Enter a keyword to search in the notes: Topic 1\n",
+            "\n",
+            "Search Results:\n",
+            "Topic 1: Variables store data. Python is dynamically typed.\n"
+          ]
+        }
+      ],
+      "source": [
+        "FILE_PATH = \"python_notes.txt\"\n",
+        "\n",
+        "# ----------------------\n",
+        "# Part A: Write to File\n",
+        "# ----------------------\n",
+        "\n",
+        "def write_initial_notes():\n",
+        "    with open(FILE_PATH, \"w\", encoding=\"utf-8\") as file:\n",
+        "        file.write(\"Topic 1: Variables store data. Python is dynamically typed.\\n\")\n",
+        "        file.write(\"Topic 2: Lists are ordered and mutable.\\n\")\n",
+        "        file.write(\"Topic 3: Dictionaries store key-value pairs.\\n\")\n",
+        "        file.write(\"Topic 4: Loops automate repetitive tasks.\\n\")\n",
+        "        file.write(\"Topic 5: Exception handling prevents crashes.\\n\")\n",
+        "    print(\"File written successfully.\")\n",
+        "\n",
+        "def append_extra_notes():\n",
+        "    with open(FILE_PATH, \"a\", encoding=\"utf-8\") as file:\n",
+        "        file.write(\"Topic 6: Functions help reuse code.\\n\")\n",
+        "        file.write(\"Topic 7: APIs connect applications.\\n\")\n",
+        "    print(\"Lines appended.\")\n",
+        "\n",
+        "write_initial_notes()\n",
+        "append_extra_notes()\n",
+        "\n",
+        "# ----------------------\n",
+        "# Part B: Read from File\n",
+        "# ----------------------\n",
+        "\n",
+        "with open(FILE_PATH, \"r\", encoding=\"utf-8\") as file:\n",
+        "    lines = file.readlines()\n",
+        "\n",
+        "print(\"\\nFile Contents:\")\n",
+        "for number, text in enumerate(lines, start=1):\n",
+        "    print(f\"{number}. {text.strip()}\")\n",
+        "\n",
+        "total_lines = len(lines)\n",
+        "print(f\"\\nTotal lines: {total_lines}\")\n",
+        "\n",
+        "search_term = input(\"\\nEnter a keyword to search in the notes: \").lower()\n",
+        "\n",
+        "print(\"\\nSearch Results:\")\n",
+        "match_found = False\n",
+        "for text in lines:\n",
+        "    if search_term in text.lower():\n",
+        "        print(text.strip())\n",
+        "        match_found = True\n",
+        "\n",
+        "if not match_found:\n",
+        "    print(\"No matching lines found for that keyword.\")"
+      ]
+    },
+    {
+      "cell_type": "code",
+      "source": [
+        "import requests\n",
+        "from datetime import datetime\n",
+        "\n",
+        "BASE_URL = \"https://dummyjson.com/products\"\n",
+        "LOG_FILE = \"error_log.txt\"\n",
+        "\n",
+        "# ----------------------\n",
+        "# Logger Function\n",
+        "# ----------------------\n",
+        "def log_error(function_name, error_type, message):\n",
+        "    with open(LOG_FILE, \"a\") as f:\n",
+        "        timestamp = datetime.now()\n",
+        "        f.write(f\"[{timestamp}] ERROR in {function_name}: {error_type} — {message}\\n\")\n",
+        "\n",
+        "\n",
+        "# ----------------------\n",
+        "# Trigger ConnectionError\n",
+        "# ----------------------\n",
+        "def test_connection_error():\n",
+        "    print(\"Triggering ConnectionError...\\n\")\n",
+        "    try:\n",
+        "        requests.get(\"https://this-host-does-not-exist-xyz.com/api\", timeout=5)\n",
+        "    except requests.exceptions.ConnectionError as e:\n",
+        "        print(\"Connection failed. Please check your internet.\")\n",
+        "        log_error(\"fetch_products\", \"ConnectionError\", str(e))\n",
+        "\n",
+        "\n",
+        "# ----------------------\n",
+        "# Trigger HTTP 404 Error\n",
+        "# ----------------------\n",
+        "def test_http_error():\n",
+        "    print(\"\\nTriggering HTTP 404...\\n\")\n",
+        "    try:\n",
+        "        r = requests.get(f\"{BASE_URL}/999\", timeout=5)\n",
+        "\n",
+        "        if r.status_code != 200:\n",
+        "            print(\"Product not found.\")\n",
+        "            log_error(\n",
+        "                \"lookup_product\",\n",
+        "                \"HTTPError\",\n",
+        "                \"404 Not Found for product ID 999\"\n",
+        "            )\n",
+        "        else:\n",
+        "            r.raise_for_status()\n",
+        "\n",
+        "    except requests.exceptions.ConnectionError as e:\n",
+        "        print(\"Connection failed. Please check your internet.\")\n",
+        "        log_error(\"lookup_product\", \"ConnectionError\", str(e))\n",
+        "\n",
+        "    except requests.exceptions.Timeout as e:\n",
+        "        print(\"Request timed out. Try again later.\")\n",
+        "        log_error(\"lookup_product\", \"Timeout\", str(e))\n",
+        "\n",
+        "    except Exception as e:\n",
+        "        print(\"Error:\", e)\n",
+        "        log_error(\"lookup_product\", \"Exception\", str(e))\n",
+        "\n",
+        "\n",
+        "# ----------------------\n",
+        "# Display Log File\n",
+        "# ----------------------\n",
+        "def display_logs():\n",
+        "    print(\"\\nError Log Contents:\\n\")\n",
+        "    try:\n",
+        "        with open(LOG_FILE, \"r\") as f:\n",
+        "            print(f.read())\n",
+        "    except FileNotFoundError:\n",
+        "        print(\"No log file found.\")\n",
+        "\n",
+        "\n",
+        "# ----------------------\n",
+        "# Run Tests\n",
+        "# ----------------------\n",
+        "test_connection_error()\n",
+        "test_http_error()\n",
+        "display_logs()"
+      ],
+      "metadata": {
+        "colab": {
+          "base_uri": "https://localhost:8080/"
+        },
+        "id": "M7Dl2A7TyqHx",
+        "outputId": "dec720ef-ef23-45d8-a953-ec7a3bf04a5d"
+      },
+      "execution_count": 5,
+      "outputs": [
+        {
+          "output_type": "stream",
+          "name": "stdout",
+          "text": [
+            "Triggering ConnectionError...\n",
+            "\n",
+            "Connection failed. Please check your internet.\n",
+            "\n",
+            "Triggering HTTP 404...\n",
+            "\n",
+            "Product not found.\n",
+            "\n",
+            "Error Log Contents:\n",
+            "\n",
+            "[2026-03-31 12:20:47.524136] ERROR in fetch_products: ConnectionError — HTTPSConnectionPool(host='this-host-does-not-exist-xyz.com', port=443): Max retries exceeded with url: /api (Caused by NameResolutionError(\"<urllib3.connection.HTTPSConnection object at 0x7f2584970aa0>: Failed to resolve 'this-host-does-not-exist-xyz.com' ([Errno -2] Name or service not known)\"))\n",
+            "[2026-03-31 12:20:47.689009] ERROR in lookup_product: HTTPError — 404 Not Found for product ID 999\n",
+            "\n"
+          ]
+        }
+      ]
+    }
+  ]
+}
