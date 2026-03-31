@@ -16,3 +16,36 @@ Enter a keyword to search in the notes: Topic 1
 
 Search Results:
 Topic 1: Variables store data. Python is dynamically typed.
+
+
+
+Task 3
+part-B
+Safe Divide Tests:
+5.0
+Error: Cannot divide by zero
+Error: Invalid input types
+
+Reading python_notes.txt:
+Error: File 'python_notes.txt' not found.
+File operation attempt complete.
+None
+
+Reading ghost_file.txt:
+Error: File 'ghost_file.txt' not found.
+File operation attempt complete.
+None
+
+Testing API with Error Handling:
+
+Essence Mascara Lash Princess - $9.99
+Eyeshadow Palette with Mirror - $19.99
+Powder Canister - $14.99
+Red Lipstick - $12.99
+Red Nail Polish - $8.99
+
+Enter a product ID to look up (1–100), or 'quit' to exit: 10
+Gucci Bloom Eau de - $79.99
+
+Enter a product ID to look up (1–100), or 'quit' to exit: dior j adore
+Invalid input. Please enter a number.
